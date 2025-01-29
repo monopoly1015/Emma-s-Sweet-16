@@ -1,9 +1,9 @@
-// Function to load images from the images/ folder
+// Function to load images from the images folder
 function loadImages() {
   const imageContainer = document.getElementById('image-container');
 
-  // Fetch the list of images from the images/ folder
-  fetch('images/')
+  // Fetch the list of images from the images folder
+  fetch('images') // No trailing slash here
     .then(response => response.text())
     .then(data => {
       const parser = new DOMParser();
