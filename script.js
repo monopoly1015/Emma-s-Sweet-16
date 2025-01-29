@@ -3,21 +3,18 @@ function loadImages() {
   const imageContainer = document.getElementById('image-container');
 
   // Fetch the list of images from the images folder
-  fetch('images') // No trailing slash here
-    .then(response => response.text())
+  fetch('https://api.github.com/repos/monopoly1015/Emma-s-Sweet-16/contents/images')
+    .then(response => response.json())
     .then(data => {
-      const parser = new DOMParser();
-      const htmlDoc = parser.parseFromString(data, 'text/html');
-
-      // Extract all image file links
-      const imageFiles = Array.from(htmlDoc.querySelectorAll('a'))
-        .map(link => link.href)
-        .filter(href => href.match(/\.(jpg|jpeg|png|gif)$/i)); // Include .jpeg files
+      // Filter for .jpeg files
+      const imageFiles = data
+        .filter(file => file.name.match(/\.(jpg|jpeg|png|gif)$/i)) // Include .jpeg files
+        .map(file => file.download_url); // Get the direct download URL
 
       // Display each image
-      imageFiles.forEach(image => {
+      imageFiles.forEach(imageUrl => {
         const img = document.createElement('img');
-        img.src = image;
+        img.src = imageUrl;
         img.alt = "Event Photo";
         img.classList.add('gallery-image'); // Add a class for styling
         imageContainer.appendChild(img);
